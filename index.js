@@ -1,5 +1,6 @@
 const express = require("express");
 const cors = require("cors");
+const axios = require("axios");
 const PORT = process.env.PORT || 3001;
 const football_routes = require("./routes/sports/football");
 const { live_football } = require("./controllers/sports/live");
@@ -24,14 +25,53 @@ const sendMessage = async text_message => {
 
 // Checking if it's 12:00 am to update yesterday value
 async function updateAndBroadcast() {
-  const current = await live_football();
-  console.log(current);
+  const current = (await live_football()).data;
+  if (current != null) {
+    for (let i = 0; i < current.length; i++) {
+      const match = current[i];
+      if (!matchesWithRedCard.includes(match["match link"])) {
+        matchesWithRedCard.push(match["match link"]);
+        const teams = `${match.home} - ${match.away}`;
+        const homeRedCards = match["red card"].home;
+        const awayRedCards = match["red card"].away;
+        const matchLink = match["match link"];
+        const score = match.currentscore.trim();
+        let decison;
+        let goalDifference;
+        let [homeScore, awayScore] = score.split("-");
+        homeScore = parseInt(homeScore);
+        awayScore = parseInt(awayScore);
+        //Execute Decision
+        if (homeRedCards > 0 && awayRedCards == "None") {
+          goalDifference = homeScore - awayScore;
+          if (goalDifference === 0) {
+            decison = `${awayTeam} To Win`;
+          } else if (goalDifference === 1) {
+            decison = `${awayTeam} To Draw`;
+          }
+        } else if (homeRedCards == "None" && awayRedCards > 0) {
+          goalDifference = awayScore - homeScore;
+          if (goalDifference === 0) {
+            decison = `${homeTeam} To Win`;
+          } else if (goalDifference === 1) {
+            decison = `${homeTeam} To Draw`;
+          }
+        }
+      }
+      if (goalDifference === 0 || goalDifference === 1) {
+        const message = encodeURIComponent(
+          `TEAMS: ${teams}\nRED_CARD: HOME [${homeRedCards}], AWAY: [${awayRedCards}]\nSCORES: ${match.currentscore}\nREVIEW: ${matchLink}`
+        );
+        sendMessage(message);
+      }
+    }
+  }
 }
 
 // Call the function immediately to emit initial data
 updateAndBroadcast();
-// const intervalId = setInterval(updateAndBroadcast, 60000);
 
+// setInterval(updateAndBroadcast, 60000);
 
 // API
 const app = express();
@@ -45,5 +85,4 @@ app.get("*", (req, res) => {
 
 app.listen(PORT, () => {
   console.log("Server (SOCKET.IO) Listening at PORT:", PORT);
-  preloadYesterdayData();
 });

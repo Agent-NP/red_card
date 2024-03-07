@@ -84,7 +84,7 @@ exports.genie = async function(action_url) {
       const matchData = {
         "match link": root_url + element.attr("href"),
         "start time": convertTimeToDisplayFormat(element.attr("start-time")), // Implement conversion function
-        status: element.find("st").text().trim(),
+        status: element.find("dk").text().trim(),
         currentscore: element.find("sc").text().trim(),
         home: element.find("t1 t").text().trim(),
         away: element.find("t2 t").text().trim(),
