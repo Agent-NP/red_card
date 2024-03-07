@@ -36,41 +36,45 @@ async function updateAndBroadcast() {
         const awayRedCards = parseInt(match["red card"].away);
         const matchLink = match["match link"];
         const score = match.currentscore.trim();
-        let decison;
-        let goalDifference;
-        let [homeScore, awayScore] = score.split("-");
-        console.log(homeRedCards);
-        homeScore = parseInt(homeScore);
-        awayScore = parseInt(awayScore);
-        //Execute Decision
-        if (homeRedCards > 0 && awayRedCards == "None") {
-          goalDifference = homeScore - awayScore;
-          if (goalDifference === 0) {
-            decison = `${awayTeam} To Win`;
-          } else if (goalDifference === 1) {
-            decison = `${awayTeam} To Draw`;
-          }
-        } else if (homeRedCards == "None" && awayRedCards > 0) {
-          goalDifference = awayScore - homeScore;
-          if (goalDifference === 0) {
-            decison = `${homeTeam} To Win`;
-          } else if (goalDifference === 1) {
-            decison = `${homeTeam} To Draw`;
-          }
-        } else if(homeRedCards > 0 && awayRedCards > 0){
-          goalDifference = Math.abs(awayScore - homeScore);
-          if (goalDifference === 0) {
-            decison = `${homeTeam} To Win`;
-          } else if (goalDifference === 1) {
-            decison = `${homeTeam} To Draw`;
-          }
-        }
-        if (goalDifference === 0 || goalDifference === 1) {
-          const message = encodeURIComponent(
-            `TEAMS: ${teams}\nRED_CARD: HOME [${homeRedCards}], AWAY: [${awayRedCards}]\nSCORES: ${match.currentscore}\nREVIEW: ${matchLink}`
-          );
-          sendMessage(message);
-        }
+        // let decison;
+        // let goalDifference;
+        // let [homeScore, awayScore] = score.split("-");
+        // console.log(homeRedCards);
+        // homeScore = parseInt(homeScore);
+        // awayScore = parseInt(awayScore);
+        // //Execute Decision
+        // if (homeRedCards > 0 && awayRedCards == "None") {
+        //   goalDifference = homeScore - awayScore;
+        //   if (goalDifference === 0) {
+        //     decison = `${awayTeam} To Win`;
+        //   } else if (goalDifference === 1) {
+        //     decison = `${awayTeam} To Draw`;
+        //   }
+        // } else if (homeRedCards == "None" && awayRedCards > 0) {
+        //   goalDifference = awayScore - homeScore;
+        //   if (goalDifference === 0) {
+        //     decison = `${homeTeam} To Win`;
+        //   } else if (goalDifference === 1) {
+        //     decison = `${homeTeam} To Draw`;
+        //   }
+        // } else if(homeRedCards > 0 && awayRedCards > 0){
+        //   goalDifference = Math.abs(awayScore - homeScore);
+        //   if (goalDifference === 0) {
+        //     decison = `${homeTeam} To Win`;
+        //   } else if (goalDifference === 1) {
+        //     decison = `${homeTeam} To Draw`;
+        //   }
+        // }
+        // if (goalDifference === 0 || goalDifference === 1) {
+        //   const message = encodeURIComponent(
+        //     `TEAMS: ${teams}\nRED_CARD: HOME [${homeRedCards}], AWAY: [${awayRedCards}]\nSCORES: ${match.currentscore}\nREVIEW: ${matchLink}`
+        //   );
+        //   sendMessage(message);
+        // }
+        const message = encodeURIComponent(
+          `TEAMS: ${teams}\nRED_CARD: HOME [${homeRedCards}], AWAY: [${awayRedCards}]\nSCORES: ${match.currentscore}\nREVIEW: ${matchLink}`
+        );
+        sendMessage(message);
       }
     }
   }
