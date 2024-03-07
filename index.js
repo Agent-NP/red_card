@@ -57,12 +57,12 @@ async function updateAndBroadcast() {
             decison = `${homeTeam} To Draw`;
           }
         }
-      }
-      if (goalDifference === 0 || goalDifference === 1) {
-        const message = encodeURIComponent(
-          `TEAMS: ${teams}\nRED_CARD: HOME [${homeRedCards}], AWAY: [${awayRedCards}]\nSCORES: ${match.currentscore}\nREVIEW: ${matchLink}`
-        );
-        sendMessage(message);
+        if (goalDifference === 0 || goalDifference === 1) {
+          const message = encodeURIComponent(
+            `TEAMS: ${teams}\nRED_CARD: HOME [${homeRedCards}], AWAY: [${awayRedCards}]\nSCORES: ${match.currentscore}\nREVIEW: ${matchLink}`
+          );
+          sendMessage(message);
+        }
       }
     }
   }
