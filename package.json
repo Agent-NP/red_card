@@ -1,0 +1,20 @@
+{
+  "name": "red-card-bot",
+  "version": "1.0.0",
+  "description": "Program scraps live football and get matches with red card",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon index"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@faker-js/faker": "^8.4.1",
+    "axios": "^1.6.7",
+    "cheerio": "^1.0.0-rc.12",
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "nodemon": "^3.0.3"
+  }
+}
