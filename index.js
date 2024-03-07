@@ -32,13 +32,14 @@ async function updateAndBroadcast() {
       if (!matchesWithRedCard.includes(match["match link"])) {
         matchesWithRedCard.push(match["match link"]);
         const teams = `${match.home} - ${match.away}`;
-        const homeRedCards = match["red card"].home;
-        const awayRedCards = match["red card"].away;
+        const homeRedCards = parseInt(match["red card"].home);
+        const awayRedCards = parseInt(match["red card"].away);
         const matchLink = match["match link"];
         const score = match.currentscore.trim();
         let decison;
         let goalDifference;
         let [homeScore, awayScore] = score.split("-");
+        console.log(homeRedCards);
         homeScore = parseInt(homeScore);
         awayScore = parseInt(awayScore);
         //Execute Decision
@@ -51,6 +52,13 @@ async function updateAndBroadcast() {
           }
         } else if (homeRedCards == "None" && awayRedCards > 0) {
           goalDifference = awayScore - homeScore;
+          if (goalDifference === 0) {
+            decison = `${homeTeam} To Win`;
+          } else if (goalDifference === 1) {
+            decison = `${homeTeam} To Draw`;
+          }
+        } else if(homeRedCards > 0 && awayRedCards > 0){
+          goalDifference = Math.abs(awayScore - homeScore);
           if (goalDifference === 0) {
             decison = `${homeTeam} To Win`;
           } else if (goalDifference === 1) {
@@ -71,7 +79,7 @@ async function updateAndBroadcast() {
 // Call the function immediately to emit initial data
 updateAndBroadcast();
 
-setInterval(updateAndBroadcast, 30000);
+// setInterval(updateAndBroadcast, 30000);
 
 // API
 const app = express();
