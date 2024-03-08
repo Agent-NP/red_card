@@ -25,6 +25,7 @@ const sendMessage = async text_message => {
 
 // Checking if it's 12:00 am to update yesterday value
 async function updateAndBroadcast() {
+  console.log("running!");
   const current = (await live_football()).data;
   if (current != null) {
     for (let i = 0; i < current.length; i++) {
@@ -83,7 +84,7 @@ async function updateAndBroadcast() {
 // Call the function immediately to emit initial data
 updateAndBroadcast();
 
-setInterval(updateAndBroadcast, 30000);
+setInterval(() => updateAndBroadcast(), 30000);
 
 // API
 const app = express();
