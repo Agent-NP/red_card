@@ -83,7 +83,7 @@ async function updateAndBroadcast() {
 // Call the function immediately to emit initial data
 updateAndBroadcast();
 
-// setInterval(updateAndBroadcast, 30000);
+setInterval(updateAndBroadcast, 30000);
 
 // API
 const app = express();
