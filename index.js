@@ -81,10 +81,6 @@ async function updateAndBroadcast() {
   }
 }
 
-// Call the function immediately to emit initial data
-updateAndBroadcast();
-
-setInterval(() => updateAndBroadcast(), 30000);
 
 // API
 const app = express();
@@ -98,4 +94,8 @@ app.get("*", (req, res) => {
 
 app.listen(PORT, () => {
   console.log("Server (SOCKET.IO) Listening at PORT:", PORT);
+  // Call the function immediately to emit initial data
+  updateAndBroadcast();
+  
+  setInterval(() => updateAndBroadcast(), 30000);
 });
